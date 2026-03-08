@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Madhav Pransukhka — Writer, Researcher & Builder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink: #12110f;
+      --paper: #f6f1e9;
+      --cream: #ede6d6;
+      --red: #b83232;
+      --mid: #4e4840;
+      --light: #8c8278;
+      --border: #cec5b2;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: 'Crimson Pro', Georgia, serif; overflow-x: hidden; }
+    body::after {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9998;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.4;
+    }
+
+    /* ─── NAV ─── */
+    .nav {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--ink);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 56px; height: 50px;
+    }
+    .nav-brand {
+      font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 700;
+      color: var(--paper); letter-spacing: 0.04em; text-decoration: none; cursor: pointer;
+    }
+    .nav-brand span { color: var(--red); font-style: italic; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(246,241,233,0.55);
+      text-decoration: none; transition: color 0.2s; cursor: pointer;
+    }
+    .nav-links a:hover { color: var(--paper); }
+    .nav-links a.active { color: var(--red); }
+
+    /* ─── TICKER ─── */
+    .ticker { background: var(--red); overflow: hidden; padding: 7px 0; }
+    .ticker-inner { display: flex; white-space: nowrap; animation: tick 26s linear infinite; }
+    .ticker-inner span {
+      font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(246,241,233,0.9); padding: 0 36px;
+    }
+    @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ─── PAGE SWITCHING ─── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ══════════════════════════════
+       HOME PAGE STYLES
+    ══════════════════════════════ */
+
+    /* ─── HERO ─── */
+    .hero {
+      display: grid; grid-template-columns: 1fr;
+      min-height: 60vh; border-bottom: 2px solid var(--ink);
+    }
+    .hero-l { padding: 90px 64px 80px; display: flex; flex-direction: column; justify-content: center; }
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--red); margin-bottom: 30px;
+    }
+    .hero-pill::before { content: ''; width: 28px; height: 1px; background: var(--red); }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(60px, 8.5vw, 118px); font-weight: 700;
+      line-height: 0.88; letter-spacing: -3px; margin-bottom: 10px;
+    }
+    .hero-name-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 4vw, 54px); font-weight: 400; font-style: italic;
+      color: var(--light); line-height: 1; letter-spacing: -1px; margin-bottom: 40px;
+    }
+    .hero-tagline {
+      font-size: 17px; line-height: 1.8; color: var(--mid); max-width: 460px;
+      margin-bottom: 44px; padding-left: 18px; border-left: 3px solid var(--red);
+    }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em;
+      text-transform: uppercase; padding: 13px 26px; text-decoration: none;
+      transition: all 0.22s; display: inline-block; cursor: pointer; border: none;
+    }
+    .btn-fill { background: var(--ink); color: var(--paper); border: 2px solid var(--ink); }
+    .btn-fill:hover { background: var(--red); border-color: var(--red); }
+    .btn-ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
+    .btn-ghost:hover { background: var(--ink); color: var(--paper); }
+
+    /* ─── SECTION HEAD ─── */
+    .sh { display: flex; align-items: baseline; gap: 14px; margin-bottom: 40px; }
+    .sh-num { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--red); letter-spacing: 0.1em; }
+    .sh-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 4.5vw, 56px); font-weight: 700; letter-spacing: -1px; }
+    .sh-line { flex: 1; height: 1px; background: var(--ink); margin-bottom: 5px; }
+
+    /* ─── ARTICLES SECTION ─── */
+    .articles-sec { padding: 72px 56px; border-bottom: 2px solid var(--ink); }
+    .articles-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+    .a-card {
+      display: flex; flex-direction: column;
+      border: 1px solid var(--border); padding: 36px 32px;
+      text-decoration: none; color: inherit; transition: background 0.22s;
+      gap: 14px; cursor: pointer;
+    }
+    .a-card:hover { background: var(--cream); }
+    .a-card-cat { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); }
+    .a-card-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(18px, 1.8vw, 24px); font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; }
+    .a-card-desc { font-size: 14px; line-height: 1.7; color: var(--mid); flex: 1; }
+    .a-card-cta { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); margin-top: auto; }
+    .a-card:hover .a-card-cta { color: var(--red); }
+    .a-card-cta::after { content: ' →'; }
+    .articles-footer { margin-top: 32px; display: flex; justify-content: flex-end; }
+
+    /* ─── INTERNSHIP SECTION ─── */
+    .internship-sec { padding: 72px 56px; border-bottom: 2px solid var(--ink); }
+    .intern-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .intern-block { border: 1px solid var(--border); padding: 44px 40px; display: flex; flex-direction: column; gap: 16px; }
+    .intern-block.featured { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .intern-org { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; }
+    .intern-org.light { color: var(--red); }
+    .intern-org.dark  { color: rgba(246,241,233,0.5); }
+    .intern-role { font-family: 'Cormorant Garamond', serif; font-size: clamp(20px, 2vw, 28px); font-weight: 700; line-height: 1.15; letter-spacing: -0.5px; }
+    .intern-period { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; }
+    .intern-period.light { color: var(--light); }
+    .intern-period.dark  { color: rgba(246,241,233,0.35); }
+    .intern-desc { font-size: 14px; line-height: 1.75; }
+    .intern-desc.light { color: var(--mid); }
+    .intern-desc.dark  { color: rgba(246,241,233,0.65); }
+    .intern-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .itag { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border: 1px solid; }
+    .itag.light { border-color: var(--border); color: var(--light); }
+    .itag.dark  { border-color: rgba(246,241,233,0.2); color: rgba(246,241,233,0.45); }
+    .intern-side { display: flex; flex-direction: column; gap: 2px; }
+    .intern-stat-row { flex: 1; border: 1px solid var(--border); padding: 28px 32px; display: flex; flex-direction: column; justify-content: center; gap: 6px; }
+    .isr-n { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 700; color: var(--red); line-height: 1; letter-spacing: -2px; }
+    .isr-l { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); }
+
+    /* ─── ABOUT SECTION ─── */
+    .about-sec { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 2px solid var(--ink); }
+    .about-l { padding: 80px 56px; border-right: 2px solid var(--ink); }
+    .about-h { font-family: 'Cormorant Garamond', serif; font-size: clamp(42px, 5.5vw, 78px); font-weight: 700; line-height: 0.92; letter-spacing: -2px; margin-bottom: 36px; }
+    .about-h em { font-style: italic; display: block; color: var(--mid); }
+    .about-p { font-size: 16px; line-height: 1.85; color: var(--mid); margin-bottom: 18px; }
+    .about-quote { margin: 32px 0; padding: 20px 24px; border-left: 3px solid var(--red); background: var(--cream); }
+    .about-quote p { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--ink); line-height: 1.6; }
+    .socials { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 32px; }
+    .soc { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; padding: 10px 18px; border: 1px solid var(--ink); color: var(--ink); text-decoration: none; transition: all 0.2s; }
+    .soc:hover { background: var(--ink); color: var(--paper); }
+    .about-r { padding: 80px 56px; }
+    .tl-item { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--border); }
+    .tl-item:first-child { border-top: 1px solid var(--border); }
+    .tl-year { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--red); min-width: 56px; padding-top: 3px; }
+    .tl-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+    .tl-desc { font-size: 13px; color: var(--mid); line-height: 1.6; }
+
+    /* ─── QUOTE BAND ─── */
+    .qband { background: var(--ink); color: var(--paper); padding: 80px 56px; border-bottom: 2px solid var(--ink); position: relative; overflow: hidden; }
+    .qband::before { content: '"'; position: absolute; top: -80px; right: 30px; font-family: 'Cormorant Garamond', serif; font-size: 600px; color: rgba(255,255,255,0.03); line-height: 1; pointer-events: none; }
+    .qband-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); margin-bottom: 22px; }
+    .qband-q { font-family: 'Cormorant Garamond', serif; font-size: clamp(24px, 3.5vw, 46px); font-style: italic; line-height: 1.3; max-width: 860px; margin-bottom: 20px; }
+    .qband-attr { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; color: rgba(246,241,233,0.35); }
+
+    /* ─── CONTACT ─── */
+    .contact-sec { padding: 90px 56px; text-align: center; border-bottom: 2px solid var(--ink); background: var(--cream); }
+    .contact-h { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 6vw, 82px); font-weight: 700; line-height: 0.92; letter-spacing: -2px; margin-bottom: 20px; }
+    .contact-sub { font-size: 17px; font-style: italic; color: var(--mid); margin-bottom: 36px; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+    .contact-email { font-family: 'Cormorant Garamond', serif; font-size: clamp(18px, 2.5vw, 30px); font-weight: 700; color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--red); padding-bottom: 4px; transition: color 0.2s; display: inline-block; margin-bottom: 48px; }
+    .contact-email:hover { color: var(--red); }
+    .contact-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+    /* ══════════════════════════════
+       ARTICLES PAGE STYLES
+    ══════════════════════════════ */
+
+    .page-header { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 40px; padding: 80px 56px 60px; border-bottom: 2px solid var(--ink); }
+    .ph-eyebrow { display: flex; align-items: center; gap: 10px; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); margin-bottom: 22px; }
+    .ph-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--red); }
+    .ph-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(56px, 9vw, 120px); font-weight: 700; line-height: 0.87; letter-spacing: -4px; }
+    .ph-title em { font-style: italic; color: var(--light); }
+    .ph-sub { margin-top: 28px; font-size: 17px; line-height: 1.8; color: var(--mid); max-width: 440px; padding-left: 18px; border-left: 3px solid var(--border); }
+    .ph-stat { text-align: right; }
+    .ph-stat-n { font-family: 'Cormorant Garamond', serif; font-size: 110px; font-weight: 700; line-height: 1; letter-spacing: -6px; color: var(--cream); }
+    .ph-stat-l { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--light); margin-top: -10px; }
+
+    .filter-bar { display: flex; align-items: center; padding: 0 56px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+    .fbtn { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; padding: 18px 22px; background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--light); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .fbtn:hover { color: var(--ink); }
+    .fbtn.active { color: var(--red); border-bottom-color: var(--red); }
+    .fsep { width: 1px; height: 14px; background: var(--border); flex-shrink: 0; }
+
+    .art-main { padding: 64px 56px 100px; }
+
+    .featured-card { display: grid; grid-template-columns: 1fr 1fr; border: 2px solid var(--ink); margin-bottom: 3px; text-decoration: none; color: inherit; }
+    .fc-left { background: var(--ink); padding: 52px 48px; display: flex; flex-direction: column; justify-content: space-between; }
+    .fc-top { display: flex; align-items: center; gap: 10px; }
+    .fc-cat { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(246,241,233,0.45); }
+    .fc-badge { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase; background: var(--red); color: var(--paper); padding: 3px 9px; }
+    .fc-ghost-num { font-family: 'Cormorant Garamond', serif; font-size: 120px; font-weight: 700; color: rgba(246,241,233,0.05); line-height: 1; letter-spacing: -6px; margin-top: auto; user-select: none; }
+    .fc-right { background: var(--paper); padding: 48px 48px 44px; display: flex; flex-direction: column; transition: background 0.25s; }
+    .featured-card:hover .fc-right { background: var(--cream); }
+    .fc-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 2.4vw, 34px); font-weight: 700; line-height: 1.12; letter-spacing: -0.5px; margin-bottom: 18px; }
+    .fc-desc { font-size: 15px; line-height: 1.8; color: var(--mid); flex: 1; }
+    .fc-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--border); }
+    .fc-meta { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--light); }
+    .fc-cta { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red); }
+
+    .article-row { display: grid; grid-template-columns: 72px 1fr 120px; gap: 28px; align-items: center; padding: 30px 32px; border: 1px solid var(--border); border-top: none; background: var(--paper); text-decoration: none; color: inherit; transition: background 0.2s; }
+    .article-row:first-child { border-top: 1px solid var(--border); }
+    .article-row:hover { background: var(--cream); }
+    .ar-num { font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 700; color: var(--border); line-height: 1; letter-spacing: -2px; text-align: center; }
+    .ar-cat { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; }
+    .ar-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(17px, 1.7vw, 22px); font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; margin-bottom: 7px; }
+    .ar-desc { font-size: 13.5px; line-height: 1.7; color: var(--mid); }
+    .ar-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+    .ar-tag { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--light); text-align: right; }
+    .ar-arrow { font-size: 20px; color: var(--border); transition: color 0.2s, transform 0.2s; }
+    .article-row:hover .ar-arrow { color: var(--red); transform: translateX(5px); }
+
+    .cat-divider { display: flex; align-items: baseline; gap: 14px; padding: 52px 0 22px; border-top: 2px solid var(--ink); margin-top: 52px; }
+    .cat-divider.first { margin-top: 0; border-top: none; padding-top: 0; }
+    .cd-num { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--red); letter-spacing: 0.1em; }
+    .cd-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 3.5vw, 46px); font-weight: 700; letter-spacing: -1px; }
+    .cd-line { flex: 1; height: 1px; background: var(--border); margin-bottom: 5px; }
+    .cd-count { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--light); letter-spacing: 0.1em; }
+    .cat-section.hidden { display: none; }
+
+    /* ─── FOOTER ─── */
+    footer { padding: 22px 56px; display: flex; align-items: center; justify-content: space-between; border-top: 3px double var(--ink); }
+    .ft-name { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 700; }
+    .ft-copy { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--light); }
+
+    /* ─── FADE ─── */
+    .fi { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .fi.on { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 860px) {
+      .nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-l { padding: 48px 24px; }
+      .articles-sec, .internship-sec { padding: 48px 24px; }
+      .articles-grid, .intern-grid { grid-template-columns: 1fr; }
+      .about-sec { grid-template-columns: 1fr; }
+      .about-l { border-right: none; border-bottom: 2px solid var(--ink); padding: 48px 24px; }
+      .about-r { padding: 48px 24px; }
+      .qband, .contact-sec, footer { padding: 48px 24px; }
+      .page-header { grid-template-columns: 1fr; padding: 48px 24px 40px; }
+      .ph-stat { display: none; }
+      .filter-bar { padding: 0 20px; }
+      .art-main { padding: 40px 20px 72px; }
+      .featured-card { grid-template-columns: 1fr; }
+      .fc-left { padding: 32px 28px 24px; }
+      .fc-ghost-num { font-size: 72px; }
+      .fc-right { padding: 32px 28px; }
+      .article-row { grid-template-columns: 48px 1fr; }
+      .ar-right { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-brand" onclick="showPage('home')">Madhav <span>Pransukhka</span></a>
+  <div class="nav-links">
+    <a onclick="showPage('home')" id="nav-home" class="active">Home</a>
+    <a onclick="showPage('articles')" id="nav-articles">Articles</a>
+    <a onclick="showPage('home', 'internship')" id="nav-internship">Internship Work</a>
+    <a onclick="showPage('home', 'about')" id="nav-about">About</a>
+    <a onclick="showPage('home', 'contact')" id="nav-contact">Contact Me</a>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>Writer · Researcher · Builder · OP Jindal Global University · PPE · Economics · Sports · Society · Agora · Arthanti · Politics · Philosophy · History ·</span>
+    <span>Writer · Researcher · Builder · OP Jindal Global University · PPE · Economics · Sports · Society · Agora · Arthanti · Politics · Philosophy · History ·</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     HOME PAGE
+══════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-l fi">
+      <div class="hero-pill">PPE · OP Jindal Global University · Since 2025</div>
+      <h1 class="hero-name">Madhav</h1>
+      <div class="hero-name-sub">Pransukhka</div>
+      <p class="hero-tagline">Writer, researcher, and student exploring the intersection of stories and structure — the emotion behind numbers and the humanity in ideas.</p>
+      <div class="hero-btns">
+        <a onclick="showPage('articles')" class="btn btn-fill">Read My Work</a>
+        <a onclick="showPage('home', 'about')" class="btn btn-ghost">About Me</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARTICLES SECTION -->
+  <section class="articles-sec fi" id="articles-preview">
+    <div class="sh"><span class="sh-num">01</span><h2 class="sh-title">Articles</h2><div class="sh-line"></div></div>
+    <div class="articles-grid">
+
+      <a href="Inflation__Wage_Dynamics__and_the_Struggle_for_Purchasing_Power__1_.pdf" target="_blank" class="a-card">
+        <div class="a-card-cat">Economics · Labour</div>
+        <div class="a-card-title">Inflation, Wage Dynamics, and the Struggle for Purchasing Power</div>
+        <div class="a-card-desc">How rising inflation erodes real wages globally — exploring the Great Resignation, declining union power, and the wage-price spiral.</div>
+        <div class="a-card-cta">Read Essay</div>
+      </a>
+
+      <a href="The_Bodo_Peace_Accord__From_Conflict_to_Cooperation_in_Assam.pdf" target="_blank" class="a-card">
+        <div class="a-card-cat">Peace-Building · Northeast India</div>
+        <div class="a-card-title">The Bodo Peace Accord: From Conflict to Cooperation in Assam</div>
+        <div class="a-card-desc">Tracing the Bodo movement from 1960s cultural demands through armed insurgency to the landmark 2020 accord.</div>
+        <div class="a-card-cta">Read Essay</div>
+      </a>
+
+      <a href="The_Ram_Mandir_Debate__A_Political_Gambit_in_the_Run-up_to_the_2024_Elections_.pdf" target="_blank" class="a-card">
+        <div class="a-card-cat">BJP · Religion · 2024 Elections</div>
+        <div class="a-card-title">The Ram Mandir Debate: A Political Gambit in the Run-up to the 2024 Elections</div>
+        <div class="a-card-desc">The temple's consecration was a religious moment and a calculated electoral strategy — unpacking the BJP's three-pronged political dividend.</div>
+        <div class="a-card-cta">Read Essay</div>
+      </a>
+
+      <a href="Was_Nathuram_Godse_Justified_.pdf" target="_blank" class="a-card">
+        <div class="a-card-cat">History · Ideology · Controversy</div>
+        <div class="a-card-title">Was Nathuram Godse Justified?</div>
+        <div class="a-card-desc">A historically-grounded look at the debate that refuses to die — Godse's motivations, Gandhi's assassination, and India's secular path.</div>
+        <div class="a-card-cta">Read Essay</div>
+      </a>
+
+      <a href="The_Burari_Deaths__Faith__Family__and_the_Fragility_of_the_Human_Mind.pdf" target="_blank" class="a-card">
+        <div class="a-card-cat">Psychology · Culture · Society</div>
+        <div class="a-card-title">The Burari Deaths: Faith, Family, and the Fragility of the Human Mind</div>
+        <div class="a-card-desc">The 2018 case that haunted Delhi — eleven deaths, one family, and the terrifying intersection of shared psychosis and cultural belief.</div>
+        <div class="a-card-cta">Read Essay</div>
+      </a>
+
+      <a href="Is_Ballon_d_OR_the_right_award_.pdf" target="_blank" class="a-card">
+        <div class="a-card-cat">Football · Awards · Fairness</div>
+        <div class="a-card-title">Is the Ballon d'Or the Right Award?</div>
+        <div class="a-card-desc">Football's most prestigious prize has a positional bias problem, a Messi-Ronaldo monopoly, and a popularity contest problem.</div>
+        <div class="a-card-cta">Read Essay</div>
+      </a>
+
+      <a href="The_Struggle_of_Bollywood_Movies.pdf" target="_blank" class="a-card">
+        <div class="a-card-cat">Film · Industry · Culture</div>
+        <div class="a-card-title">The Struggle of Bollywood Movies</div>
+        <div class="a-card-desc">Post-pandemic box office collapse, OTT disruption, the remake epidemic, and nepotism debates — why Hindi cinema is losing its audience.</div>
+        <div class="a-card-cta">Read Essay</div>
+      </a>
+
+    </div>
+    <div class="articles-footer">
+      <a onclick="showPage('articles')" class="btn btn-ghost">View All Articles</a>
+    </div>
+  </section>
+
+  <!-- INTERNSHIP WORK -->
+  <section class="internship-sec fi" id="internship">
+    <div class="sh"><span class="sh-num">02</span><h2 class="sh-title">Internship Work</h2><div class="sh-line"></div></div>
+    <div class="intern-grid">
+      <div class="intern-block featured">
+        <div class="intern-org dark">National Economic Forum · New Delhi</div>
+        <div class="intern-role">Research Intern</div>
+        <div class="intern-period dark">Dec 2025 – Feb 2026</div>
+        <div class="intern-desc dark">Conducted in-depth research and literature reviews on economic policy and contemporary issues in India. Produced policy briefs synthesising academic and government sources for use in forum publications and discussions.</div>
+        <div class="intern-tags">
+          <span class="itag dark">Economic Policy</span>
+          <span class="itag dark">Literature Review</span>
+          <span class="itag dark">Policy Briefs</span>
+          <span class="itag dark">Research</span>
+        </div>
+      </div>
+      <div class="intern-side">
+        <div class="intern-stat-row fi" style="transition-delay:0.08s">
+          <div class="isr-n">3</div>
+          <div class="isr-l">Months of Research</div>
+        </div>
+        <div class="intern-stat-row fi" style="transition-delay:0.14s">
+          <div class="isr-n">New Delhi</div>
+          <div class="isr-l">Location</div>
+        </div>
+        <div class="intern-stat-row fi" style="transition-delay:0.2s">
+          <div class="isr-n">Policy</div>
+          <div class="isr-l">Focus Area</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 2px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;">
+      <div class="intern-block fi" style="transition-delay:0.06s">
+        <div class="intern-org light">Policy Corner · JGU</div>
+        <div class="intern-role" style="font-size: clamp(16px,1.6vw,22px);">Sub Head of Editorial</div>
+        <div class="intern-period light">2025 – Present</div>
+        <div class="intern-desc light">Editing and commissioning policy-focused student writing. Shaping the editorial direction of one of JGU's leading policy publications.</div>
+        <div class="intern-tags">
+          <span class="itag light">Editing</span>
+          <span class="itag light">Policy</span>
+          <span class="itag light">Leadership</span>
+        </div>
+      </div>
+      <div class="intern-block fi" style="transition-delay:0.1s">
+        <div class="intern-org light">Arthaniti · JGU</div>
+        <div class="intern-role" style="font-size: clamp(16px,1.6vw,22px);">Research Member</div>
+        <div class="intern-period light">2025 – Present</div>
+        <div class="intern-desc light">Contributing economics research and analysis to the student-run economics journal at OP Jindal Global University.</div>
+        <div class="intern-tags">
+          <span class="itag light">Economics</span>
+          <span class="itag light">Research</span>
+          <span class="itag light">Writing</span>
+        </div>
+      </div>
+      <div class="intern-block fi" style="transition-delay:0.14s">
+        <div class="intern-org light">The Agora · JGU</div>
+        <div class="intern-role" style="font-size: clamp(16px,1.6vw,22px);">Writing Team</div>
+        <div class="intern-period light">2025 – Present</div>
+        <div class="intern-desc light">Writing long-form pieces on economics, politics, and society for The Agora — JGU's interdisciplinary student publication.</div>
+        <div class="intern-tags">
+          <span class="itag light">Long-form</span>
+          <span class="itag light">Interdisciplinary</span>
+          <span class="itag light">Publishing</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-sec" id="about">
+    <div class="about-l fi">
+      <h2 class="about-h">About<br><em>the writer.</em></h2>
+      <p class="about-p">I'm Madhav Pransukhka — a writer, researcher, and student who explores the world through the intersection of stories and structure, the emotion behind numbers and the humanity in ideas.</p>
+      <p class="about-p">My work spans economics, sports, and society, blending analytical thinking with creative storytelling. I've contributed to publications like <em>Agora</em> and <em>Arthaniti</em>, and I'm drawn to questions that sit at the intersection of data and human experience.</p>
+      <p class="about-p">My writing journey began with sports journalism — 15+ articles on cricket as a reflection of passion, identity, and teamwork. That love for storytelling evolved into policy research and co-founding a newsletter reaching 1,300 readers.</p>
+      <div class="about-quote">
+        <p>"The most interesting things live between disciplines — where economists have to argue like philosophers, and philosophers have to face the data."</p>
+      </div>
+      <div class="socials">
+        <a class="soc" href="https://www.linkedin.com/in/madhavpr2176" target="_blank">LinkedIn</a>
+        <a class="soc" href="mailto:madhavpr2176@gmail.com">Email</a>
+      </div>
+    </div>
+    <div class="about-r fi" style="transition-delay:0.15s">
+      <div class="sh" style="margin-bottom:32px;">
+        <span class="sh-num">03</span>
+        <h2 class="sh-title" style="font-size:clamp(24px,3vw,38px);">Timeline</h2>
+        <div class="sh-line"></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2025–</div>
+        <div>
+          <div class="tl-title">PPE Student — OP Jindal Global University</div>
+          <div class="tl-desc">Politics, Philosophy & Economics. Sub Head of Editorial at Policy Corner; Research Member at Arthaniti; Writing Team at The Agora.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">Dec 2025–Feb 2026</div>
+        <div>
+          <div class="tl-title">Research Intern — National Economic Forum, New Delhi</div>
+          <div class="tl-desc">Conducted research and literature reviews on economic policy and contemporary issues.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2025</div>
+        <div>
+          <div class="tl-title">Graduated — The International School Bangalore (TISB)</div>
+          <div class="tl-desc">Co-Editor-in-Chief of Hindi & Economics magazines. Top 36 nationally — Ultimate Sports Quiz. Led 16-member trekking expedition to Coorg's highest peak.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2024</div>
+        <div>
+          <div class="tl-title">Head of Department — Vivum, India's Largest Student-Led Charity Event</div>
+          <div class="tl-desc">Raised Rs. 15 lakhs through sponsorship outreach. Supervised 60 volunteers across safety and operations.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2024</div>
+        <div>
+          <div class="tl-title">Event Head — Xavage, Bangalore</div>
+          <div class="tl-desc">Coordinated logistics for 24 school teams, ensuring smooth execution of the event.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2023–</div>
+        <div>
+          <div class="tl-title">CEO & Co-Founder — Kahani Suno, Surat</div>
+          <div class="tl-desc">Wrote 16 articles on economics, politics, and history reaching 1,300+ readers. Designed and launched the website from scratch.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2023–2025</div>
+        <div>
+          <div class="tl-title">Chief Operating Officer — Gyandaan, Hubballi</div>
+          <div class="tl-desc">Raised Rs. 70,000+ for books for underprivileged children. Managed operations, team, and donor outreach.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2023</div>
+        <div>
+          <div class="tl-title">Wharton Global High School Investment Competition</div>
+          <div class="tl-desc">Represented India as Group Leader at the global investment competition.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE BAND -->
+  <section class="qband fi">
+    <div class="qband-tag">A Guiding Thought</div>
+    <blockquote class="qband-q">"Numbers tell you what happened. Stories tell you why it mattered. I want to do both — and be honest about the gap between them."</blockquote>
+    <div class="qband-attr">— Madhav Pransukhka</div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-sec fi" id="contact">
+    <h2 class="contact-h">Get in Touch.</h2>
+    <p class="contact-sub">For collaborations, commissions, or just a good conversation about ideas — my inbox is open.</p>
+    <a href="mailto:madhavpr2176@gmail.com" class="contact-email">madhavpr2176@gmail.com</a>
+    <div class="contact-links">
+      <a class="soc" href="https://www.linkedin.com/in/madhavpr2176" target="_blank">LinkedIn</a>
+      <a class="soc" href="mailto:madhavpr2176@gmail.com">Email</a>
+    </div>
+  </section>
+
+  <footer>
+    <span class="ft-name">Madhav Pransukhka</span>
+    <span class="ft-copy">Writer · Researcher · Builder · © 2025</span>
+  </footer>
+
+</div><!-- end #page-home -->
+
+
+<!-- ══════════════════════════════
+     ARTICLES PAGE
+══════════════════════════════ -->
+<div id="page-articles" class="page">
+
+  <header class="page-header fi">
+    <div>
+      <div class="ph-eyebrow">Published Writing</div>
+      <h1 class="ph-title">The<br><em>Archive.</em></h1>
+      <p class="ph-sub">Research-driven essays and arguments on economics, Indian politics, sports, and society — written to think out loud.</p>
+    </div>
+    <div class="ph-stat">
+      <div class="ph-stat-n">24</div>
+      <div class="ph-stat-l">Pieces Published</div>
+    </div>
+  </header>
+
+  <div class="filter-bar">
+    <button class="fbtn active" data-filter="all">All</button>
+    <div class="fsep"></div>
+    <button class="fbtn" data-filter="economics">Economics</button>
+    <div class="fsep"></div>
+    <button class="fbtn" data-filter="india">India &amp; Politics</button>
+    <div class="fsep"></div>
+    <button class="fbtn" data-filter="sports">Sports</button>
+    <div class="fsep"></div>
+    <button class="fbtn" data-filter="philosophy">Philosophy &amp; Theory</button>
+    <div class="fsep"></div>
+    <button class="fbtn" data-filter="society">Society &amp; World</button>
+    <div class="fsep"></div>
+    <button class="fbtn" data-filter="culture">Film &amp; Culture</button>
+  </div>
+
+  <main class="art-main">
+
+    <!-- ECONOMICS -->
+    <div class="cat-section fi" data-category="economics">
+      <div class="cat-divider first">
+        <span class="cd-num">01</span><span class="cd-name">Economics</span>
+        <span class="cd-line"></span><span class="cd-count">4 pieces</span>
+      </div>
+      <a href="Inflation__Wage_Dynamics__and_the_Struggle_for_Purchasing_Power__1_.pdf" target="_blank" class="featured-card">
+        <div class="fc-left">
+          <div class="fc-top"><span class="fc-cat">Economics · Labour</span><span class="fc-badge">Lead</span></div>
+          <div class="fc-ghost-num">01</div>
+        </div>
+        <div class="fc-right">
+          <div class="fc-title">Inflation, Wage Dynamics, and the Struggle for Purchasing Power</div>
+          <div class="fc-desc">A close examination of how rising inflation erodes real wages — exploring global trends, the Great Resignation, declining union power, and what monetary policy can actually do about a wage-price spiral.</div>
+          <div class="fc-footer"><span class="fc-meta">1,355 words</span><span class="fc-cta">Read Essay →</span></div>
+        </div>
+      </a>
+      <a href="_RBI_s_Rate_Cut_.pdf" target="_blank" class="article-row">
+        <div class="ar-num">02</div>
+        <div>
+          <div class="ar-cat">Monetary Policy · RBI · India</div>
+          <div class="ar-title">Low Inflation, Strong Growth, and the RBI's Rate Cut Strategy in 2025</div>
+          <div class="ar-desc">How record-low inflation and 8.2% GDP growth gave the RBI room to cut rates — and who wins and loses when borrowing gets cheaper.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">1,384 words</span><span class="ar-arrow">→</span></div>
+      </a>
+      <a href="Economics_of_Gender_Pay_Gaps.pages" target="_blank" class="article-row">
+        <div class="ar-num">03</div>
+        <div>
+          <div class="ar-cat">Gender · Labour Economics</div>
+          <div class="ar-title">Economics of Gender Pay Gaps</div>
+          <div class="ar-desc">An analytical look at the structural and market forces behind persistent gender wage disparities — from occupational segregation to bargaining power and policy levers.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Essay</span><span class="ar-arrow">→</span></div>
+      </a>
+      <a href="US_Tech_s_Big_India_Bet.pdf" target="_blank" class="article-row">
+        <div class="ar-num">04</div>
+        <div>
+          <div class="ar-cat">Technology · Investment · AI</div>
+          <div class="ar-title">US Tech's Big India Bet</div>
+          <div class="ar-desc">Microsoft's $17.5B, Amazon's $35B, Google's $15B — why US tech giants pledged over $50 billion into India's AI and cloud infrastructure in under 48 hours.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">601 words</span><span class="ar-arrow">→</span></div>
+      </a>
+    </div>
+
+    <!-- INDIA & POLITICS -->
+    <div class="cat-section fi" data-category="india" style="transition-delay:0.05s">
+      <div class="cat-divider">
+        <span class="cd-num">02</span><span class="cd-name">India &amp; Politics</span>
+        <span class="cd-line"></span><span class="cd-count">10 pieces</span>
+      </div>
+      <a href="The_Politics_of_Performance__How_Democracy_Became_a_Stage_Show.pdf" target="_blank" class="featured-card">
+        <div class="fc-left">
+          <div class="fc-top"><span class="fc-cat">Politics · Democracy · Media</span><span class="fc-badge">Lead</span></div>
+          <div class="fc-ghost-num">05</div>
+        </div>
+        <div class="fc-right">
+          <div class="fc-title">The Politics of Performance: How Democracy Became a Stage Show</div>
+          <div class="fc-desc">Using Goffman's dramaturgy to unpack how the 24-hour news cycle, social media algorithms, and stage-managed spectacle have hollowed out democratic discourse.</div>
+          <div class="fc-footer"><span class="fc-meta">Essay</span><span class="fc-cta">Read Essay →</span></div>
+        </div>
+      </a>
+      <a href="Odisha__From_Poverty_to_Progress___A_Journey_of_Resilience_and_Reform_docx.pdf" target="_blank" class="article-row">
+        <div class="ar-num">06</div>
+        <div>
+          <div class="ar-cat">Development · Governance</div>
+          <div class="ar-title">Odisha: From Poverty to Progress — A Journey of Resilience and Reform</div>
+          <div class="ar-desc">How India's once-poorest state climbed back through cyclone-tested governance, mineral wealth, and Naveen Patnaik's 23-year tenure.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Long-form</span><span class="ar-arrow">→</span></div>
+      </a>
+      <a href="The_Bodo_Peace_Accord__From_Conflict_to_Cooperation_in_Assam.pdf" target="_blank" class="article-row">
+        <div class="ar-num">07</div>
+        <div>
+          <div class="ar-cat">Peace-Building · Northeast India</div>
+          <div class="ar-title">The Bodo Peace Accord: From Conflict to Cooperation in Assam</div>
+          <div class="ar-desc">Tracing the Bodo movement from 1960s cultural demands through armed insurgency to the landmark 2020 accord.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Essay</span><span class="ar-arrow">→</span></div>
+      </a>
+      <a href="The_Ram_Mandir_Debate__A_Political_Gambit_in_the_Run-up_to_the_2024_Elections_.pdf" target="_blank" class="article-row">
+        <div class="ar-num">08</div>
+        <div>
+          <div class="ar-cat">BJP · Religion · 2024 Elections</div>
+          <div class="ar-title">The Ram Mandir Debate: A Political Gambit in the Run-up to the 2024 Elections</div>
+          <div class="ar-desc">The temple's consecration was a religious moment and a calculated electoral strategy — unpacking the BJP's three-pronged political dividend.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Essay</span><span class="ar-arrow">→</span></div>
+      </a>
+      <a href="Was_Nathuram_Godse_Justified_.pdf" target="_blank" class="article-row">
+        <div class="ar-num">09</div>
+        <div>
+          <div class="ar-cat">History · Ideology · Controversy</div>
+          <div class="ar-title">Was Nathuram Godse Justified?</div>
+          <div class="ar-desc">A measured, historically-grounded look at the debate that refuses to die — examining Godse's motivations and why the question keeps returning.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Essay</span><span class="ar-arrow">→</span></div>
+      </a>
+      <a href="The_Burari_Deaths__Faith__Family__and_the_Fragility_of_the_Human_Mind.pdf" target="_blank" class="article-row">
+        <div class="ar-num">10</div>
+        <div>
+          <div class="ar-cat">Psychology · Culture · Society</div>
+          <div class="ar-title">The Burari Deaths: Faith, Family, and the Fragility of the Human Mind</div>
+          <div class="ar-desc">Eleven deaths, one family, and the terrifying intersection of shared psychosis and cultural belief in 2018 Delhi.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Essay</span><span class="ar-arrow">→</span></div>
+      </a>
+      <a href="A_Controversial_Journey_in_Indian_Politics.pdf" target="_blank" class="article-row">
+        <div class="ar-num">11</div>
+        <div>
+          <div class="ar-cat">BJP · Hindu Nationalism · History</div>
+          <div class="ar-title">A Controversial Journey in Indian Politics: The BJP Story</div>
+          <div class="ar-desc">From the RSS-linked BJS to Modi's national dominance — tracing the BJP's rise through Hindutva ideology, coalition politics, and landmark policies.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Essay</span><span class="ar-arrow">→</span></div>
+      </a>
+      <a href="Examining_Bihar_s_Poverty_Paradox.pdf" target="_blank" class="article-row">
+        <div class="ar-num">12</div>
+        <div>
+          <div class="ar-cat">Development · Poverty · Governance</div>
+          <div class="ar-title">Examining Bihar's Poverty Paradox</div>
+          <div class="ar-desc">Bihar has potential but remains India's poorest state — a deep dive into caste politics, land inequality, and the civil-services mindset that keeps a generation trapped.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Essay</span><span class="ar-arrow">→</span></div>
+      </a>
+      <a href="India_s_International_Relations.pdf" target="_blank" class="article-row">
+        <div class="ar-num">13</div>
+        <div>
+          <div class="ar-cat">Foreign Policy · Diplomacy</div>
+          <div class="ar-title">India's International Relations</div>
+          <div class="ar-desc">From Nehru's non-alignment to Modi's strategic autonomy — how India navigates its relationships with the US, Russia, China, and the Global South.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Essay</span><span class="ar-arrow">→</span></div>
+      </a>
+      <a href="BBC_Report_docx.pdf" target="_blank" class="article-row">
+        <div class="ar-num">14</div>
+        <div>
+          <div class="ar-cat">Media · Modi · Gujarat Riots</div>
+          <div class="ar-title">The BBC Documentary: India, Modi, and the Gujarat Riots</div>
+          <div class="ar-desc">An examination of the BBC's controversial documentary on the 2002 Gujarat violence, India's censorship response, and what the episode reveals about press freedom.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Report</span><span class="ar-arrow">→</span></div>
+      </a>
+    </div>
+
+    <!-- SPORTS -->
+    <div class="cat-section fi" data-category="sports" style="transition-delay:0.08s">
+      <div class="cat-divider">
+        <span class="cd-num">03</span><span class="cd-name">Sports</span>
+        <span class="cd-line"></span><span class="cd-count">4 pieces</span>
+      </div>
+      <a href="Is_Ballon_d_OR_the_right_award_.pdf" target="_blank" class="featured-card">
+        <div class="fc-left">
+          <div class="fc-top"><span class="fc-cat">Football · Awards · Fairness</span><span class="fc-badge">Lead</span></div>
+          <div class="fc-ghost-num">15</div>
+        </div>
+        <div class="fc-right">
+          <div class="fc-title">Is the Ballon d'Or the Right Award?</div>
+          <div class="fc-desc">Football's most prestigious prize has a positional bias problem, a Messi-Ronaldo monopoly problem, and a popularity contest problem. An argument for rethinking how we recognise greatness.</div>
+          <div class="fc-footer"><span class="fc-meta">Analysis</span><span class="fc-cta">Read Essay →</span></div>
+        </div>
+      </a>
+      <a href="Indian_Football.pdf" target="_blank" class="article-row">
+        <div class="ar-num">16</div>
+        <div>
+          <div class="ar-cat">Football · India · ISL</div>
+          <div class="ar-title">Indian Football: Beyond Cricket's Shadow</div>
+          <div class="ar-desc">From the Golden Era of the 1950s to the Indian Super League — how Indian football has fought for relevance, and the governance battles still holding the game back.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Essay</span><span class="ar-arrow">→</span></div>
+      </a>
+      <a href="Protest_in_Sports.pdf" target="_blank" class="article-row">
+        <div class="ar-num">17</div>
+        <div>
+          <div class="ar-cat">Wrestling · Athlete Activism · India</div>
+          <div class="ar-title">Protest in Sports: The Indian Wrestlers' Fight for Justice</div>
+          <div class="ar-desc">When India's top wrestlers took to the streets against WFI president Brij Bhushan Singh, they forced a national conversation about power and accountability in sport.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Essay</span><span class="ar-arrow">→</span></div>
+      </a>
+      <a href="An_Evolution_in_Competitive_Gaming.pdf" target="_blank" class="article-row">
+        <div class="ar-num">18</div>
+        <div>
+          <div class="ar-cat">Esports · Gaming · Culture</div>
+          <div class="ar-title">An Evolution in Competitive Gaming: The Rise of Esports</div>
+          <div class="ar-desc">From niche hobby to global phenomenon — how streaming, professionalisation, and the Asian Games transformed esports into a legitimate sporting arena.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Essay</span><span class="ar-arrow">→</span></div>
+      </a>
+    </div>
+
+    <!-- PHILOSOPHY & THEORY -->
+    <div class="cat-section fi" data-category="philosophy" style="transition-delay:0.09s">
+      <div class="cat-divider">
+        <span class="cd-num">04</span><span class="cd-name">Philosophy &amp; Theory</span>
+        <span class="cd-line"></span><span class="cd-count">2 pieces</span>
+      </div>
+      <a href="Faith__Reason__and_the_Limits_of_Power__The_Theological_Foundations_of_Locke_s_Liberalism.pdf" target="_blank" class="featured-card">
+        <div class="fc-left">
+          <div class="fc-top"><span class="fc-cat">Political Philosophy · Locke · Liberalism</span><span class="fc-badge">Lead</span></div>
+          <div class="fc-ghost-num">19</div>
+        </div>
+        <div class="fc-right">
+          <div class="fc-title">Faith, Reason, and the Limits of Power: The Theological Foundations of Locke's Liberalism</div>
+          <div class="fc-desc">How Locke's belief in divine law, natural rights, and reason built a moral ceiling on state power — and why this marks a decisive advance over Hobbes's fear-based absolutism.</div>
+          <div class="fc-footer"><span class="fc-meta">Academic Essay</span><span class="fc-cta">Read Essay →</span></div>
+        </div>
+      </a>
+      <a href="Fear__Order__and_the_Birth_of_the_Modern_State__Reassessing_Hobbes_in_the_Age_of_Civil_War.pdf" target="_blank" class="article-row">
+        <div class="ar-num">20</div>
+        <div>
+          <div class="ar-cat">Political Philosophy · Hobbes · Civil War</div>
+          <div class="ar-title">Fear, Order, and the Birth of the Modern State: Reassessing Hobbes in the Age of Civil War</div>
+          <div class="ar-desc">Hobbes was modern in method but pre-modern in conclusion — how the English Civil War shaped Leviathan, and why his secular reasoning coexists uneasily with absolute sovereignty.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Academic Essay</span><span class="ar-arrow">→</span></div>
+      </a>
+    </div>
+
+    <!-- SOCIETY & WORLD -->
+    <div class="cat-section fi" data-category="society" style="transition-delay:0.1s">
+      <div class="cat-divider">
+        <span class="cd-num">05</span><span class="cd-name">Society &amp; World</span>
+        <span class="cd-line"></span><span class="cd-count">3 pieces</span>
+      </div>
+      <a href="The_BRICS_expansion___symbolic_politics_or_power_shift_.pdf" target="_blank" class="featured-card">
+        <div class="fc-left">
+          <div class="fc-top"><span class="fc-cat">Geopolitics · BRICS · Global South</span><span class="fc-badge">Lead</span></div>
+          <div class="fc-ghost-num">21</div>
+        </div>
+        <div class="fc-right">
+          <div class="fc-title">The BRICS Expansion — Symbolic Politics or Power Shift?</div>
+          <div class="fc-desc">When Saudi Arabia, Iran, Egypt, and Ethiopia joined BRICS in 2023, was it a genuine reordering of global power or an elaborate performance? Using Goffman, Bourdieu, and Bauman to read the world's most ambitious coalition.</div>
+          <div class="fc-footer"><span class="fc-meta">1,142 words</span><span class="fc-cta">Read Essay →</span></div>
+        </div>
+      </a>
+      <a href="Bridging_Global_and_Local__Tackling_Climate_Change_for_Community_Peace.pdf" target="_blank" class="article-row">
+        <div class="ar-num">22</div>
+        <div>
+          <div class="ar-cat">Climate · Community · Peace-Building</div>
+          <div class="ar-title">Bridging Global and Local: Tackling Climate Change for Community Peace</div>
+          <div class="ar-desc">Surat sits at the front line of monsoon flooding and extreme heat. A personal essay on how community sustainability and policy advocacy can turn environmental crisis into resilience.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Essay</span><span class="ar-arrow">→</span></div>
+      </a>
+      <a href="The_Troubled_State_of_Airlines_in_India.pdf" target="_blank" class="article-row">
+        <div class="ar-num">23</div>
+        <div>
+          <div class="ar-cat">Aviation · India · Infrastructure</div>
+          <div class="ar-title">The Troubled State of Airlines in India</div>
+          <div class="ar-desc">From Go First's insolvency to grounded fleets, fuel price shocks, and a chronic pilot shortage — why India's fastest-growing aviation market keeps stumbling.</div>
+        </div>
+        <div class="ar-right"><span class="ar-tag">Essay</span><span class="ar-arrow">→</span></div>
+      </a>
+    </div>
+
+    <!-- FILM & CULTURE -->
+    <div class="cat-section fi" data-category="culture" style="transition-delay:0.11s">
+      <div class="cat-divider">
+        <span class="cd-num">06</span><span class="cd-name">Film &amp; Culture</span>
+        <span class="cd-line"></span><span class="cd-count">1 piece</span>
+      </div>
+      <a href="The_Struggle_of_Bollywood_Movies.pdf" target="_blank" class="featured-card">
+        <div class="fc-left">
+          <div class="fc-top"><span class="fc-cat">Bollywood · OTT · Industry</span><span class="fc-badge">Lead</span></div>
+          <div class="fc-ghost-num">24</div>
+        </div>
+        <div class="fc-right">
+          <div class="fc-title">The Struggle of Bollywood Movies</div>
+          <div class="fc-desc">Post-pandemic box office collapse, OTT disruption, the remake epidemic, and nepotism debates — why Hindi cinema is losing its audience and what a revival might actually take.</div>
+          <div class="fc-footer"><span class="fc-meta">Industry Analysis</span><span class="fc-cta">Read Essay →</span></div>
+        </div>
+      </a>
+    </div>
+
+  </main>
+
+  <div class="qband fi">
+    <div class="qband-tag">On Writing</div>
+    <blockquote class="qband-q">"Numbers tell you what happened. Stories tell you why it mattered. I want to do both — and be honest about the gap between them."</blockquote>
+    <div class="qband-attr">— Madhav Pransukhka</div>
+  </div>
+
+  <footer>
+    <span class="ft-name">Madhav Pransukhka</span>
+    <span class="ft-copy">Writer · Researcher · Builder · © 2025</span>
+  </footer>
+
+</div><!-- end #page-articles -->
+
+<script>
+  // ── Page switching ──
+  function showPage(page, anchor) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+
+    // Update nav active state
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById('nav-' + page).classList.add('active');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (anchor) {
+      setTimeout(() => {
+        const el = document.getElementById(anchor);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+
+    // Trigger fade-ins on the newly shown page
+    setTimeout(() => {
+      document.querySelectorAll('#page-' + page + ' .fi').forEach(el => {
+        const obs = new IntersectionObserver(entries => {
+          entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); }});
+        }, { threshold: 0.07 });
+        obs.observe(el);
+      });
+    }, 50);
+  }
+
+  // ── Initial fade-in for home ──
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); }});
+  }, { threshold: 0.07 });
+  document.querySelectorAll('#page-home .fi').forEach(el => obs.observe(el));
+
+  // ── Articles filter ──
+  document.querySelectorAll('.fbtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      document.querySelectorAll('.cat-section').forEach(sec => {
+        const show = f === 'all' || sec.dataset.category === f;
+        sec.classList.toggle('hidden', !show);
+        if (show) setTimeout(() => sec.classList.add('on'), 10);
+      });
+    });
+  });
+
+  // ── Home scroll nav highlight ──
+  const sections = document.querySelectorAll('#page-home section[id], #page-home header[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 80) current = sec.id;
+    });
+  }, { passive: true });
+</script>
+</body>
+</html>
